@@ -1,10 +1,10 @@
 import './App.css';
-import ChatBot from './chatBot';
+import Models from './Models';
 
 function App() {
   return (
     <>
-      <ChatBot />
+      <Models />
     </>
   );
 }

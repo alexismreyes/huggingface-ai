@@ -4,7 +4,7 @@ This project make use of Huggingface models to interact with Artificial Intellig
 
 **_Stack used:_**
 
-### Frontend: (Not working yet, work in progress)
+### Frontend: (UI already created but not fully functional yet - WORK IN PROGRESS)
 
 **_- React_**
 **_- VITE_**
@@ -63,5 +63,11 @@ Check the models folder and change the value for the prompt in each file to make
 3.  inside backend `npm i`
 
 4.  inside backend `npm run start`
+
+To visualize the UI
+
+5. inside frontend `npm i`
+
+6. inside frontend `npm run dev`
 
 ---

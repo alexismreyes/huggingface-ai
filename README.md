@@ -24,6 +24,12 @@ This project make use of Huggingface models to interact with Artificial Intellig
 
 ### Current features:
 
+**_Frontend_**
+
+- Image to Text now working from the UI
+
+**_Backend_**
+
 By now it just have three endpoints at backend, it lefts to build the frontend side using react:
 
     http://localhost:5050/api/image2text (Generate a text based in an Image URL)

@@ -172,12 +172,14 @@ button:hover {
 .response {
   margin-top: 2rem;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .error-message {
   margin-top: 2rem;
   color: red;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 /*------------------------------------------------------------------

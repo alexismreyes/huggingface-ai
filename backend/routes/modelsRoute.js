@@ -20,10 +20,12 @@ router.post('/image2text', async (req, res) => {
 });
 
 //translate
-router.get('/translate', async (req, res) => {
+router.post('/translate', async (req, res) => {
+  const text2Translate = req.body.text2Translate;
+
   try {
-    const response = await translate();
-    res.send(response);
+    const response = await translate(text2Translate);
+    res.json(response);
   } catch (err) {
     res.status(500).send({ error: 'Failure in the endpoint!!' });
   }

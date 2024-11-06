@@ -11,6 +11,7 @@ const ImageToText = () => {
     e.preventDefault();
     console.log('Image To Text executed!');
     setLoading(true);
+    setError('');
     try {
       // First, validate that the URL is properly formed
       new URL(imageUrl);
@@ -34,7 +35,7 @@ const ImageToText = () => {
 
       setTextImage(response.data.generated_text);
       setLoading(false);
-      setError('');
+
       //console.log('Response data:', response.data.generated_text);
     } catch (err) {
       console.error('Fetch error:', err.message);

@@ -55,7 +55,7 @@ By now it just have three endpoints at backend:
 
 Create an account in (https://huggingface.co/) and create your own access token and use in your .env.development file as HF_KEY to be retrieved for the server.js, also create your PORT value, i used the 5050.
 
-example .env.development file:
+example backend/.env.development file:
 
 PORT=5050
 
@@ -64,6 +64,12 @@ HF_KEY=youraccesstoken
 get your access token here after create your account:
 
 https://huggingface.co/settings/tokens
+
+Also create a frontend/.env.development file for the local API:
+
+example:
+
+VITE_API_URL=http://localhost:5050/api
 
 ---
 

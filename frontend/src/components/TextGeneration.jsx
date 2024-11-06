@@ -22,7 +22,7 @@ const TextGeneration = () => {
 
       //if text is valid to traduce
       const response = await axios.post(
-        `http://localhost:5050/api/textgeneration`,
+        `${import.meta.env.VITE_API_URL}/textgeneration`,
         {
           sourceText /* USING POST REQUEST SENDING BODY */,
         }

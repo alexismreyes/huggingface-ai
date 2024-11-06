@@ -19,7 +19,7 @@ This project make use of Huggingface models to interact with Artificial Intellig
 **_- React_**
 **_- VITE_**
 
-### Backend: (Already working, use postman or any other client to test it)
+### Backend:
 
 **_- Express.js_**
 **_- nodemon_**

@@ -21,9 +21,12 @@ const Translate = () => {
       }
 
       //if text is valid to traduce
-      const response = await axios.post(`http://localhost:5050/api/translate`, {
-        text2Translate /* USING POST REQUEST SENDING BODY */,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/translate`,
+        {
+          text2Translate /* USING POST REQUEST SENDING BODY */,
+        }
+      );
       //console.log('Traduccion->', response.data);
 
       setTranslated(response.data.translation_text);

@@ -5,12 +5,17 @@ const translate = require('../models/translate');
 const textGeneration = require('../models/textGeneration');
 
 //text2image
-router.get('/image2text', async (req, res) => {
+router.post('/image2text', async (req, res) => {
+  const imageUrl = req.body.imageUrl;
+
   try {
-    const response = await image2text();
-    res.send(response);
+    // Proceed with processing the image URL
+    const response = await image2text(imageUrl);
+    res.json(response);
   } catch (err) {
-    res.status(500).send({ error: 'Failure in the endpoint!!' });
+    // For other errors, return a general server error
+    console.error('Error in image2text processing:', err);
+    res.status(500).json({ error: 'Failure in the endpoint!' });
   }
 });
 

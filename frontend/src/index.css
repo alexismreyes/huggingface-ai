@@ -169,13 +169,24 @@ button:hover {
   width: 100%;
 }
 
+.response {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.error-message {
+  margin-top: 2rem;
+  color: red;
+  margin-bottom: 2rem;
+}
+
 /*------------------------------------------------------------------
 [ Button ]*/
 .container-login100-form-btn {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 }
 
 .wrap-login100-form-btn {

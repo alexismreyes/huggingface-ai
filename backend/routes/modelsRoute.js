@@ -32,10 +32,12 @@ router.post('/translate', async (req, res) => {
 });
 
 //textGeneration
-router.get('/textgeneration', async (req, res) => {
+router.post('/textgeneration', async (req, res) => {
+  const sourceText = req.body.sourceText;
+
   try {
-    const response = await textGeneration();
-    res.send(response);
+    const response = await textGeneration(sourceText);
+    res.json(response);
   } catch (err) {
     res.status(500).send({ error: 'Failure in the endpoint!!' });
   }

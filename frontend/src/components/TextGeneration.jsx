@@ -46,6 +46,9 @@ const TextGeneration = () => {
         <span className="login100-form-title p-b-20">
           Text Generation (LLM)
         </span>
+        <span style={{ color: 'green', fontWeight: 'bold' }}>
+          <center> Mixtral model similar to Chat-GPT</center>
+        </span>
         <textarea
           placeholder="Add your question in english"
           className="textarea100"

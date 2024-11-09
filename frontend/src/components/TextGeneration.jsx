@@ -1,18 +1,20 @@
-import axios from 'axios';
 import { useState } from 'react';
+import useApiRequest from '../hooks/useApiRequest';
 
 const TextGeneration = () => {
   const [sourceText, setSourceText] = useState('');
-  const [generatedText, setGeneratedText] = useState('');
+  const [displayData, setDisplayData] = useState('');
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, makeRequest } = useApiRequest(
+    `${import.meta.env.VITE_API_URL}/textgeneration`,
+    { sourceText }
+  );
 
-  const handleTextGeneration = async (e, sourceText) => {
+  const handleTextGeneration = async (e) => {
     e.preventDefault();
     console.log('Generation Started!');
-    setLoading(true);
-    setGeneratedText(''); //clean the previous generated text
-    setError(''); //delete error message when new translation is requested
+    setError('');
+    setDisplayData('');
 
     try {
       // Check if text2Translate is not empty
@@ -20,23 +22,13 @@ const TextGeneration = () => {
         throw new Error('Introduce any text before starting text generation');
       }
 
-      //if text is valid to traduce
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/textgeneration`,
-        {
-          sourceText /* USING POST REQUEST SENDING BODY */,
-        }
-      );
-      //console.log('Generated->', response.data);
-
-      setGeneratedText(response.data);
-      setLoading(false);
-      //console.log('Response data:', response.data.generated_text);
+      const data = await makeRequest();
+      if (data) {
+        setDisplayData(data);
+      }
     } catch (err) {
       console.error('Fetch error:', err.message);
       setError(err.message);
-      setLoading(false);
-      setGeneratedText('');
     }
   };
 
@@ -76,9 +68,9 @@ const TextGeneration = () => {
           <span>Loading...</span>
         </div>
       )}
-      {generatedText != '' && (
+      {displayData != '' && (
         <div className="response">
-          <span> {generatedText}</span>
+          <span> {displayData}</span>
         </div>
       )}
       {error && <div className="error-message">{error}</div>}

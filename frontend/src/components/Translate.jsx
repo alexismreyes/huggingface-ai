@@ -1,42 +1,36 @@
-import axios from 'axios';
 import { useState } from 'react';
+import useApiRequest from '../hooks/useApiRequest';
 
 const Translate = () => {
   const [translate, setTranslate] = useState('');
-  const [translated, setTranslated] = useState('');
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [displayData, setDisplayData] = useState('');
 
-  const handleTranslate = async (e, text2Translate) => {
+  const [error, setError] = useState(null);
+  const { loading, makeRequest } = useApiRequest(
+    `${import.meta.env.VITE_API_URL}/translate`,
+    { translate }
+  );
+
+  const handleTranslate = async (e) => {
     e.preventDefault();
     console.log('Translation started!');
-    setLoading(true);
-    setTranslated(''); //clean the previous translated text
-    setError(''); //delete error message when new translation is requested
+
+    setError('');
+    setDisplayData('');
 
     try {
       // Check if text2Translate is not empty
-      if (!text2Translate) {
+      if (!translate) {
         throw new Error('Introduce text in Spanish to be translated');
       }
 
-      //if text is valid to traduce
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/translate`,
-        {
-          text2Translate /* USING POST REQUEST SENDING BODY */,
-        }
-      );
-      //console.log('Traduccion->', response.data);
-
-      setTranslated(response.data.translation_text);
-      setLoading(false);
-      //console.log('Response data:', response.data.generated_text);
+      const data = await makeRequest();
+      if (data) {
+        setDisplayData(data.translation_text);
+      }
     } catch (err) {
       console.error('Fetch error:', err.message);
       setError(err.message);
-      setLoading(false);
-      setTranslated('');
     }
   };
 
@@ -60,7 +54,7 @@ const Translate = () => {
           <div className="login100-form-bgbtn"></div>
           <button
             className="login100-form-btn"
-            onClick={(e) => handleTranslate(e, translate)}
+            onClick={(e) => handleTranslate(e)}
           >
             Translate
           </button>
@@ -71,9 +65,9 @@ const Translate = () => {
           <span>Loading...</span>
         </div>
       )}
-      {translated != '' && (
+      {displayData != '' && (
         <div className="response">
-          <span> {translated}</span>
+          <span> {displayData}</span>
         </div>
       )}
       {error && <div className="error-message">{error}</div>}

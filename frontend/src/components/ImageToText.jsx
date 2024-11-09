@@ -4,6 +4,9 @@ import useApiRequest from '../hooks/useApiRequest';
 const ImageToText = () => {
   const [urlImage, setUrlImage] = useState('');
   const [displayData, setDisplayData] = useState('');
+
+  /*  We do not send the error to hook becuase if it fails in the try block it doesnt reach the makeRequest method, 
+  so we wont be able to show error in UI */
   const [error, setError] = useState('');
   const { loading, makeRequest } = useApiRequest(
     `${import.meta.env.VITE_API_URL}/image2text`,

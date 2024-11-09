@@ -21,7 +21,7 @@ router.post('/image2text', async (req, res) => {
 
 //translate
 router.post('/translate', async (req, res) => {
-  const text2Translate = req.body.text2Translate;
+  const text2Translate = req.body.translate;
 
   try {
     const response = await translate(text2Translate);

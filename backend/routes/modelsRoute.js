@@ -6,11 +6,11 @@ const textGeneration = require('../models/textGeneration');
 
 //text2image
 router.post('/image2text', async (req, res) => {
-  const imageUrl = req.body.imageUrl;
+  const urlImage = req.body.urlImage;
 
   try {
     // Proceed with processing the image URL
-    const response = await image2text(imageUrl);
+    const response = await image2text(urlImage);
     res.json(response);
   } catch (err) {
     // For other errors, return a general server error

@@ -1,22 +1,29 @@
-import axios from 'axios';
 import { useState } from 'react';
+import useApiRequest from '../hooks/useApiRequest';
 
 const ImageToText = () => {
   const [urlImage, setUrlImage] = useState('');
-  const [textImage, setTextImage] = useState('');
-  const [error, setError] = useState(null);
+  const [displayData, setDisplayData] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { makeRequest } = useApiRequest(
+    `${import.meta.env.VITE_API_URL}/image2text`,
+    { urlImage }
+  );
 
-  const handleImage2Text = async (e, imageUrl) => {
+  const handleImage2Text = async (e) => {
     e.preventDefault();
     console.log('Image To Text executed!');
-    setLoading(true);
     setError('');
+    setDisplayData('');
+    setLoading(true);
+
     try {
       // First, validate that the URL is properly formed
-      new URL(imageUrl);
+      const validUrl = new URL(urlImage);
+
       // Try to fetch the image (check if it's a valid image URL)
-      const checkedImageUrl = await fetch(imageUrl, { method: 'HEAD' });
+      const checkedImageUrl = await fetch(validUrl, { method: 'HEAD' });
       // Check if the response is valid and if it returns an image
       if (
         !checkedImageUrl.ok ||
@@ -24,24 +31,19 @@ const ImageToText = () => {
       ) {
         throw new Error('Invalid or unreachable image URL.');
       }
-
-      //if url image is valid
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/image2text`,
-        {
-          imageUrl /* USING POST REQUEST SENDING BODY */,
-        }
-      );
-
-      setTextImage(response.data.generated_text);
+      //if its a valid image
+      // Call makeRequest and set the response data to displayData
+      const data = await makeRequest();
+      if (data) {
+        setDisplayData(data.generated_text);
+      } else {
+        setError('Failed to retrieve data from server');
+      }
       setLoading(false);
-
-      //console.log('Response data:', response.data.generated_text);
     } catch (err) {
       console.error('Fetch error:', err.message);
       setError('Invalid URL format or server error');
       setLoading(false);
-      setTextImage('');
     }
   };
 
@@ -65,7 +67,7 @@ const ImageToText = () => {
           <div className="login100-form-bgbtn"></div>
           <button
             className="login100-form-btn"
-            onClick={(e) => handleImage2Text(e, urlImage)}
+            onClick={(e) => handleImage2Text(e)}
           >
             Get value
           </button>
@@ -76,11 +78,11 @@ const ImageToText = () => {
           <span>Loading...</span>
         </div>
       )}
-      {textImage != '' && (
+      {displayData && (
         <div className="response">
           <span>
             {' '}
-            <b>Image is about: </b> {textImage}
+            <b>Image is about: </b> {displayData}
           </span>
         </div>
       )}

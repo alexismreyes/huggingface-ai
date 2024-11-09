@@ -24,6 +24,7 @@ const Translate = () => {
         throw new Error('Introduce text in Spanish to be translated');
       }
 
+      //if translate is not empty
       const data = await makeRequest();
       if (data) {
         setDisplayData(data.translation_text);

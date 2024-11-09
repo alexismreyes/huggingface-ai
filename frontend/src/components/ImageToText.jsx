@@ -32,9 +32,8 @@ const ImageToText = () => {
       ) {
         throw new Error('Invalid or unreachable image URL.');
       }
+
       //if its a valid image
-      // Call makeRequest and set the response data to displayData
-      // Call makeRequest and set the response data to displayData
       const data = await makeRequest();
       if (data) {
         setDisplayData(data.generated_text);

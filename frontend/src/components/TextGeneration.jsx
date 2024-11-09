@@ -17,11 +17,12 @@ const TextGeneration = () => {
     setDisplayData('');
 
     try {
-      // Check if text2Translate is not empty
+      // Check if sourceText is not empty
       if (!sourceText) {
         throw new Error('Introduce any text before starting text generation');
       }
 
+      //if sourceText is not empty
       const data = await makeRequest();
       if (data) {
         setDisplayData(data);

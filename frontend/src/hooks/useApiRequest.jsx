@@ -2,19 +2,23 @@ import axios from 'axios';
 import { useState } from 'react';
 
 const useApiRequest = (urlApi, requestData) => {
-  const [responseData, setResponseData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const makeRequest = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(urlApi, requestData);
-      setResponseData(response.data);
+
+      setLoading(false);
       return response.data;
     } catch (err) {
+      setLoading(false);
+
       console.error('Fetch error in hook->', err);
     }
   };
 
-  return { responseData, makeRequest };
+  return { loading, makeRequest };
 };
 
 export default useApiRequest;

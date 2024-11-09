@@ -4,9 +4,8 @@ import useApiRequest from '../hooks/useApiRequest';
 const ImageToText = () => {
   const [urlImage, setUrlImage] = useState('');
   const [displayData, setDisplayData] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { makeRequest } = useApiRequest(
+  const { loading, makeRequest } = useApiRequest(
     `${import.meta.env.VITE_API_URL}/image2text`,
     { urlImage }
   );
@@ -16,7 +15,6 @@ const ImageToText = () => {
     console.log('Image To Text executed!');
     setError('');
     setDisplayData('');
-    setLoading(true);
 
     try {
       // First, validate that the URL is properly formed
@@ -33,17 +31,14 @@ const ImageToText = () => {
       }
       //if its a valid image
       // Call makeRequest and set the response data to displayData
+      // Call makeRequest and set the response data to displayData
       const data = await makeRequest();
       if (data) {
         setDisplayData(data.generated_text);
-      } else {
-        setError('Failed to retrieve data from server');
       }
-      setLoading(false);
     } catch (err) {
       console.error('Fetch error:', err.message);
       setError('Invalid URL format or server error');
-      setLoading(false);
     }
   };
 

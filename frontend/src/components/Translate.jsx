@@ -3,35 +3,21 @@ import useApiRequest from '../hooks/useApiRequest';
 
 const Translate = () => {
   const [translate, setTranslate] = useState('');
-  const [displayData, setDisplayData] = useState('');
-
-  const [error, setError] = useState(null);
-  const { loading, makeRequest } = useApiRequest(
+  const { loading, data, error, makeRequest } = useApiRequest(
     `${import.meta.env.VITE_API_URL}/translate`,
-    { translate }
+    { translate },
+    'Text empty or server error',
+    'Translate'
   );
 
   const handleTranslate = async (e) => {
     e.preventDefault();
     console.log('Translation started!');
 
-    setError('');
-    setDisplayData('');
-
     try {
-      // Check if text2Translate is not empty
-      if (!translate) {
-        throw new Error('Introduce text in Spanish to be translated');
-      }
-
-      //if translate is not empty
-      const data = await makeRequest();
-      if (data) {
-        setDisplayData(data.translation_text);
-      }
+      await makeRequest();
     } catch (err) {
       console.error('Fetch error:', err.message);
-      setError(err.message);
     }
   };
 
@@ -66,9 +52,9 @@ const Translate = () => {
           <span>Loading...</span>
         </div>
       )}
-      {displayData != '' && (
+      {data && data.translation_text != '' && (
         <div className="response">
-          <span> {displayData}</span>
+          <span> {data.translation_text}</span>
         </div>
       )}
       {error && <div className="error-message">{error}</div>}

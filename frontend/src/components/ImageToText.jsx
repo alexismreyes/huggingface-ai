@@ -3,44 +3,19 @@ import useApiRequest from '../hooks/useApiRequest';
 
 const ImageToText = () => {
   const [urlImage, setUrlImage] = useState('');
-  const [displayData, setDisplayData] = useState('');
-
-  /*  We do not send the error to hook becuase if it fails in the try block it doesnt reach the makeRequest method, 
-  so we wont be able to show error in UI */
-  const [error, setError] = useState('');
-  const { loading, makeRequest } = useApiRequest(
+  const { loading, data, error, makeRequest } = useApiRequest(
     `${import.meta.env.VITE_API_URL}/image2text`,
-    { urlImage }
+    { urlImage },
+    'Bad URL or server error',
+    'imageToText'
   );
 
   const handleImage2Text = async (e) => {
     e.preventDefault();
-    console.log('Image To Text executed!');
-    setError('');
-    setDisplayData('');
-
     try {
-      // First, validate that the URL is properly formed
-      const validUrl = new URL(urlImage);
-
-      // Try to fetch the image (check if it's a valid image URL)
-      const checkedImageUrl = await fetch(validUrl, { method: 'HEAD' });
-      // Check if the response is valid and if it returns an image
-      if (
-        !checkedImageUrl.ok ||
-        !checkedImageUrl.headers.get('content-type').includes('image')
-      ) {
-        throw new Error('Invalid or unreachable image URL.');
-      }
-
-      //if its a valid image
-      const data = await makeRequest();
-      if (data) {
-        setDisplayData(data.generated_text);
-      }
+      await makeRequest();
     } catch (err) {
       console.error('Fetch error:', err.message);
-      setError('Invalid URL format or server error');
     }
   };
 
@@ -52,9 +27,7 @@ const ImageToText = () => {
           type="text"
           placeholder="Add Image URL"
           className="input100"
-          onChange={(e) => {
-            setUrlImage(e.target.value);
-          }}
+          onChange={(e) => setUrlImage(e.target.value)}
         />
         <span className="focus-input100" />
       </div>
@@ -66,7 +39,7 @@ const ImageToText = () => {
             className="login100-form-btn"
             onClick={(e) => handleImage2Text(e)}
           >
-            Get value
+            Translate
           </button>
         </div>
       </div>
@@ -75,11 +48,10 @@ const ImageToText = () => {
           <span>Loading...</span>
         </div>
       )}
-      {displayData && (
+      {data && (
         <div className="response">
           <span>
-            {' '}
-            <b>Image is about: </b> {displayData}
+            <b>Image is about:</b> {data.generated_text}
           </span>
         </div>
       )}

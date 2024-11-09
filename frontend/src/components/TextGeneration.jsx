@@ -3,33 +3,21 @@ import useApiRequest from '../hooks/useApiRequest';
 
 const TextGeneration = () => {
   const [sourceText, setSourceText] = useState('');
-  const [displayData, setDisplayData] = useState('');
-  const [error, setError] = useState(null);
-  const { loading, makeRequest } = useApiRequest(
+  const { loading, data, error, makeRequest } = useApiRequest(
     `${import.meta.env.VITE_API_URL}/textgeneration`,
-    { sourceText }
+    { sourceText },
+    'Empty question or server error',
+    'TextGeneration'
   );
 
   const handleTextGeneration = async (e) => {
     e.preventDefault();
     console.log('Generation Started!');
-    setError('');
-    setDisplayData('');
 
     try {
-      // Check if sourceText is not empty
-      if (!sourceText) {
-        throw new Error('Introduce any text before starting text generation');
-      }
-
-      //if sourceText is not empty
-      const data = await makeRequest();
-      if (data) {
-        setDisplayData(data);
-      }
+      await makeRequest();
     } catch (err) {
       console.error('Fetch error:', err.message);
-      setError(err.message);
     }
   };
 
@@ -69,9 +57,9 @@ const TextGeneration = () => {
           <span>Loading...</span>
         </div>
       )}
-      {displayData != '' && (
+      {data != '' && (
         <div className="response">
-          <span> {displayData}</span>
+          <span> {data}</span>
         </div>
       )}
       {error && <div className="error-message">{error}</div>}
